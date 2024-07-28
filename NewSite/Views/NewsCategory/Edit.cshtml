@@ -1,0 +1,42 @@
+﻿@model DomainModel.ViewModel.News.NewsCategoryAddEditModel
+
+
+@{
+    Layout = null;
+}
+
+
+<table class="table table-bordered table-striped table-sm table-borderless" id="frmAddEditModel">
+    
+    
+
+    <tr>
+        <td>CategoryName</td>
+        <td>
+            <input type="text" asp-for="@Model.CategoryName"  class="form-control" placeholder="CategoryName"/>
+        </td>
+    </tr>
+    <tr>
+        <td>SmallDescription</td>
+        <td>
+            <input type="text" asp-for="@Model.SmallDescription" class="form-control" placeholder="SmallDescription" />
+        </td>
+    </tr>
+    <tr>
+        <td>Slug</td>
+        <td>
+            <input type="text" asp-for="@Model.Slug"  class="form-control" placeholder="Slug"  />
+        </td>
+    </tr>
+    <tr>
+        <td>ParentId</td>
+        <td>
+            <input type="text" asp-for="@Model.ParentId"  class="form-control" placeholder="ParentId" />
+        </td>
+    </tr>
+    <tr class="text-center">
+        <td colspan="2">
+            <span class="btn btn-info spn-register-CategoryAddEditModel" data-controller="NewsCategory" ,data-action="Edit">Update</span>
+        </td>
+    </tr>
+</table>

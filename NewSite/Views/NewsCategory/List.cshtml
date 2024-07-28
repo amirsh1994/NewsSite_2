@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<DomainModel.ViewModel.Categories.CategoryListItems>
+@{
+    Layout = null;
+}
+
+
+@{
+    if (!@Model.Any())
+    {
+        <tr>
+            <td colspan="6">
+                <h3 class="text-danger">
+                    there is no categoryListItems
+                </h3>
+            </td>
+        </tr>
+    }
+    else
+    {
+        <table class="table table-hover table-bordered table-striped ">
+            <thead>
+            <tr>
+                <th>
+                    کد رده
+                </th>
+                <th>
+                    نام رده
+                </th>
+                <th>
+                    اسلاگ
+                </th>
+                <th>
+                    تعداد خبر
+                </th>
+                <th>
+                    حذف
+                </th>
+                <th>
+                    ویرایش
+                </th>
+                
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model) {
+                <tr id="tr-@item.CategoryId">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Slug)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NewsCount)
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-info" }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-warning" }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-danger" })
+                <span class="input-group-prepend"><i class="fa fa-angle-double-down">Delete</i></span>*@
+                        <span class="btn btn-danger btn-sm spn-delete" data-id="@item.CategoryId" data-action="Delete"  data-controller="NewsCategory">Delete</span>
+                    </td>
+                    <td>
+                        <span class="btn btn-info btn-sm spn-edit" data-id="@item.CategoryId" data-action="Edit"  data-controller="NewsCategory" >Edit</span>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+}
