@@ -7,7 +7,7 @@ namespace DataAccess.Services;
 
 public interface INewsCategoryRepository
 {
-    Task<int> Add(NewsCategoryAddEditModel addEditModel);
+    Task<OperationResult> Add(NewsCategoryAddEditModel addEditModel);
 
     Task<OperationResult> Delete(int categoryId);
 
@@ -19,12 +19,14 @@ public interface INewsCategoryRepository
 
     Task<bool> HasRelatedNews(int categoryId);
 
-    Task<bool> Update(NewsCategoryAddEditModel newAddEditModel);
+    Task<OperationResult> Update(NewsCategoryAddEditModel newAddEditModel);
 
     Task<List<CategoryListItems>> GetCategoryListItem();
 
-    
+    List<NewsCategoryAddEditModel> GetRoots();
 
+    List<NewsCategoryAddEditModel> GetSubCategories(int parentId);
 
+    List<NewsSearchResults> Search(NewsSearchModel sm, out int recordCount);
 
 }

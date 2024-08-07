@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DomainModel.ViewModel.News;
+namespace DomainModel.ViewModel.Categories;
 
 public class NewsCategoryAddEditModel
 {

@@ -2,19 +2,22 @@
 
 @{
     Layout = null;
+    var drpRoots = (SelectList)ViewBag.drpParent;
 }
 
 @*<h4>NewsCategoryAddEditModel</h4>*@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" id="frm-saveUpdate">
+        <form asp-action="Edit" id="frm-saveAdd">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
-              
-                <input type="hidden" asp-for="NewsCategoryId" class="form-control" />
-               
+                <label>دسته والد </label>    
+                <select asp-for="ParentId" asp-items="@drpRoots"></select>
             </div>
+
+
             <div class="form-group">
                 <label asp-for="CategoryName" class="control-label"></label>
                 <input asp-for="CategoryName" class="form-control" />
@@ -30,14 +33,14 @@
                 <input asp-for="Slug" class="form-control" />
                 <span asp-validation-for="Slug" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="ParentId" class="control-label"></label>
                 <input asp-for="ParentId" class="form-control" />
                 <span asp-validation-for="ParentId" class="text-danger"></span>
-                
-            </div>
+
+            </div>*@
             <div class="form-group">
-                <span class="btn btn-primary btn-sm save-update" data-controller=" NewsCategory" data-action="Edit" data-form-id="frm-saveUpdate">SaveUpdate</span>
+                <span class="btn btn-primary  saveAdd" data-controller=" NewsCategory" data-action="Add" data-form-id="frm-saveAdd">SaveRegister</span>
             </div>
         </form>
     </div>

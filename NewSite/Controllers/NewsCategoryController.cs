@@ -1,9 +1,7 @@
 ﻿using DataAccess.Services;
-using DomainModel.ViewModel;
-using DomainModel.ViewModel.News;
+using DomainModel.ViewModel.Categories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using NewSite.ViewModels.NewsCategories;
 
 namespace NewSite.Controllers;
 
@@ -21,7 +19,6 @@ public class NewsCategoryController(INewsCategoryRepository repository) : Contro
         return View(cats);
     }
 
-
     [HttpPost]
     public async Task<JsonResult> Delete(int id)
     {
@@ -29,16 +26,54 @@ public class NewsCategoryController(INewsCategoryRepository repository) : Contro
         return Json(op);
     }
 
-    public async Task<IActionResult> Get(int id)
-    {
-        var cat = await repository.Get(id);
-        return Json(cat);
-    }
 
     public async Task<IActionResult> Edit(int id)
     {
-        var cat =await repository.Get(id);
-       
+        var cat = await repository.Get(id);
+
         return View(cat);
+    }
+
+    [HttpPost]
+    public async Task<JsonResult> Edit(NewsCategoryAddEditModel newModel)
+    {
+
+        var op = await repository.Update(newModel);
+        return Json(op);
+
+    }
+
+    public async Task<IActionResult> Add()
+    {
+        BindRoot();
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<JsonResult> Add(NewsCategoryAddEditModel cat)
+    {
+        BindRoot();
+        if (cat.ParentId==0)
+        {
+            cat.ParentId = null;
+        }
+        var op = await repository.Add(cat);
+        return Json(op);
+
+    }
+
+    private void BindRoot()
+    {
+        var roots = repository.GetRoots();
+        roots.Insert(0, new NewsCategoryAddEditModel() { CategoryName = "دسته اصلی" });
+        var drpParent = new SelectList(roots, "NewsCategoryId", "CategoryName");
+        ViewBag.drpParent = drpParent;
+    }
+
+    private void BindChildren(int parentId)
+    {
+        var roots = repository.GetSubCategories(parentId);
+        var drpSubCategories = new SelectList(roots, "NewsCategoryId", "CategoryName");
+        ViewBag.drpSubCategories = drpSubCategories;
     }
 }

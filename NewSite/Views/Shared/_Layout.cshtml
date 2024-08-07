@@ -41,35 +41,189 @@
         </main>
     </div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2024 - NewSite - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-    </div>
-</footer>
-@* ----------------------------------Modal---------------------------- *@
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div id="dvModal">
-
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - NewSite - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    @* ----------------------------------Modal---------------------------- *@
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body">
+                    <div id="dvModal">
+
+                    </div>
+                </div>
+
             </div>
-           
         </div>
     </div>
-</div>
-@* ----------------------------------End------------------------------ *@
+    @* ----------------------------------End------------------------------ *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script>
+
+        function SuccessMessage(successText) {
+            window.swal.fire({
+                icon: 'success',
+                text: successText
+
+            });
+
+        }
+
+        function ErrorMessage(errorTxt) {
+            window.swal.fire({
+                icon: 'error',
+                title: 'خطا',
+                text: errorTxt
+            });
+        }
+
+        function BindGrid() {
+            var action = window.$("#dvContent").attr("data-action");
+            var controller = window.$("#dvContent").attr("data-controller");
+            var sendingUrl = `${controller}/${action}`;
+            var sendingData = null;
+            window.$(".waiting").css("display", "flex");
+
+            window.$.get(sendingUrl,
+                null,
+                function (result) {
+                    window.$("#dvContent").html(result);
+                    window.$(".waiting").css("display", "none");
+                });
+        }
+
+        $(document).ready(function () {
+            BindGrid();
+        });
+
+        $(document).on("click",
+            ".spn-delete",
+            function () {
+                if (confirm('are you sure?')) {
+                    var action = window.$(this).attr("data-action");
+                    var controller = window.$(this).attr("data-controller");
+                    var id = window.$(this).attr("data-id");
+                    var sendingUrl = `${controller}/${action}`;
+                    var sendingData = `id=${id}`;
+
+                    window.$(".waiting").css("display", "flex");
+                    window.$.post(sendingUrl,
+                        sendingData,
+                        function (op) {
+
+                            if (op.success.toString() === "true") {
+                                var trId = `#tr-${id}`;
+                                $(trId).fadeOut(1000);
+                                BindGrid();
+                                SuccessMessage(op.message);
+                                window.$(".waiting").css("display", "none");
+
+                            } else {
+                                ErrorMessage(op.message);
+                                window.$(".waiting").css("display", "none");
+                            }
+
+                        });
+                }
+            });
+
+        $(document).on("click",
+            ".spn-edit",
+            function () {
+
+                var action = window.$(this).attr("data-action");
+                var controller = window.$(this).attr("data-controller");
+                var id = window.$(this).attr("data-id");
+                var sendingUrl = `${controller}/${action}`;
+                var sendingData = `id=${id}`;
+
+                window.$.get(sendingUrl,
+                    sendingData,
+                    function (result) {
+
+                        window.$("#dvModal").html(result);
+                        window.$("#exampleModal").modal('show');
+
+                    });
+            });
+
+        $(document).on("click",
+            ".spn-register-CategoryAddEditModel",
+            function () {
+
+            });
+
+        //save-update
+        $(document).on("click",
+            ".save-update",
+            function () {
+                let controller = $(this).attr("data-controller");
+                let action = $(this).attr("data-action");
+                var sendingUrl = `${controller}/${action}`;
+                var formid = "#" + $(this).attr("data-form-id");
+                var sendingData = $(formid).serialize();
+                $.post(sendingUrl,
+                    sendingData,
+                    function (op) {
+                        if (op.success.toString() === "true") {
+                            window.$("#exampleModal").modal('hide');
+                            BindGrid();
+                            SuccessMessage(op.message);
+                        } else {
+                            ErrorMessage(op.message);
+                        }
+                    });
+            });
+
+        $(document).on("click",
+            ".spnOpenAddModal",
+            function (view) {
+                let controller = $(this).attr("data-controller");
+                let action = $(this).attr("data-action");
+                let sendingUrl = `${controller}/${action}`;
+                let sendingData = null;
+                $.get(sendingUrl, sendingData, function (viewAdd) {
+                    $("#dvModal").html(viewAdd);
+                    $("#exampleModal").modal('show');
+                });
+
+
+
+            });
+
+        //saveAdd
+        $(document).on("click",
+            ".saveAdd",
+            function () {
+                let controller = $(this).attr("data-controller");
+                let action = $(this).attr("data-action");
+                var sendingUrl = `${controller}/${action}`;
+                var formid = "#" + $(this).attr("data-form-id");
+                var sendingData = $(formid).serialize();
+                $.post(sendingUrl,
+                    sendingData,
+                    function (op) {
+                        if (op.success.toString() === "true") {
+                            window.$("#exampleModal").modal('hide');
+                            BindGrid();
+                            SuccessMessage(op.message);
+                        } else {
+                            ErrorMessage(op.message);
+                        }
+                    });
+            });
+
 
     </script>
 </body>

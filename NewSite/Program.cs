@@ -10,6 +10,7 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+
         builder.Services.WiredUp(builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty);
         builder.Services.AddHsts(op =>
         {
@@ -31,6 +32,7 @@ public class Program
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
+
         app.UseRouting();
 
         app.UseAuthorization();
@@ -38,6 +40,7 @@ public class Program
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
         app.Run();
     }

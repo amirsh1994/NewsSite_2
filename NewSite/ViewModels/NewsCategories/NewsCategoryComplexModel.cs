@@ -1,5 +1,4 @@
 ﻿using DomainModel.ViewModel.Categories;
-using DomainModel.ViewModel.News;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace NewSite.ViewModels.NewsCategories;

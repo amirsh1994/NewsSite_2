@@ -17,6 +17,8 @@ public class OperationResult
     }
 
 
+   
+
     public OperationResult ToError(string message)
     {
         Message = message;

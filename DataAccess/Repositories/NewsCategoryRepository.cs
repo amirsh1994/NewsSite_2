@@ -10,12 +10,23 @@ namespace DataAccess.Repositories;
 public class NewsCategoryRepository(NewsDbContext db) : INewsCategoryRepository
 {
 
-    public async Task<int> Add(NewsCategoryAddEditModel addEditModel)
+    #region Repositories
+
+    public async Task<OperationResult> Add(NewsCategoryAddEditModel addEditModel)
     {
-        var model = addEditModel.ToModel();
-        db.Categories.Add(model);
-        await db.SaveChangesAsync();
-        return model.NewsCategoryId;
+        var op = new OperationResult();
+        try
+        {
+            var model = addEditModel.ToModel();
+            db.Categories.Add(model);
+            await db.SaveChangesAsync();
+            return op.ToSuccess("saved successfully");
+        }
+        catch (Exception e)
+        {
+            return op.ToError($"save has failed {e.Message}");
+
+        }
     }
 
     public async Task<OperationResult> Delete(int categoryId)
@@ -24,7 +35,7 @@ public class NewsCategoryRepository(NewsDbContext db) : INewsCategoryRepository
 
         var cat = await db.Categories.FirstOrDefaultAsync(x => x.NewsCategoryId == categoryId);
 
-        if (cat==null)
+        if (cat == null)
         {
             return op.ToError("not exists");
         }
@@ -75,33 +86,34 @@ public class NewsCategoryRepository(NewsDbContext db) : INewsCategoryRepository
 
     }
 
-    public async Task<bool> HasRelatedNews(int categoryId)
+    public Task<bool> HasRelatedNews(int categoryId)
     {
-        return await db.News.AnyAsync(x => x.NewsCategoryId == categoryId);
+        return db.News.AnyAsync(x => x.NewsCategoryId == categoryId);
     }
 
-    public async Task<bool> Update(NewsCategoryAddEditModel newAddEditModel)
+    public async Task<OperationResult> Update(NewsCategoryAddEditModel newAddEditModel)
     {
+        var op = new OperationResult();
         try
         {
             var newModel = newAddEditModel.ToModel();
             db.Categories.Attach(newModel);
             db.Entry(newModel).State = EntityState.Modified;
             await db.SaveChangesAsync();
-            return true;
+            return op.ToSuccess("updated successfully");
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message + ex.InnerException?.Message);
-            return false;
+
+            return op.ToError("update failed" + ex.Message + ex.StackTrace);
 
 
         }
     }
 
-    public async Task<List<CategoryListItems>> GetCategoryListItem()
+    public Task<List<CategoryListItems>> GetCategoryListItem()
     {
-        return await db.Categories.Select(x => new CategoryListItems()
+        return db.Categories.Select(x => new CategoryListItems()
         {
             CategoryId = x.NewsCategoryId,
             NewsCount = x.News.Count,
@@ -110,8 +122,61 @@ public class NewsCategoryRepository(NewsDbContext db) : INewsCategoryRepository
         }).ToListAsync();
 
     }
+
+    public List<NewsCategoryAddEditModel> GetRoots()
+    {
+        var results = db.Categories.Where(x => x.ParentId == null).Select(x => x.ToAddEditModel());
+        return results.ToList();
+    }
+
+    public List<NewsCategoryAddEditModel> GetSubCategories(int parentId)
+    {
+        return db.Categories.Where(x => x.ParentId == parentId).Select(x => x.ToAddEditModel()).ToList();
+    }
+
+    public List<NewsSearchResults> Search(NewsSearchModel sm, out int recordCount)
+    {
+        var q = from item in db.News select item;
+        if (sm.NewsCategoryId != null)
+        {
+            q = q.Where(x => x.NewsCategoryId == sm.NewsCategoryId);
+        }
+
+        if (!string.IsNullOrWhiteSpace(sm.NeswTitle))
+        {
+            q = q.Where(x => x.NewsTitle.StartsWith(sm.NeswTitle));
+        }
+
+        if (!string.IsNullOrWhiteSpace(sm.Slug))
+        {
+            q = q.Where(x => x.Slug.StartsWith(sm.Slug));
+        }
+
+        if (!string.IsNullOrWhiteSpace(sm.Text))
+        {
+            q = q.Where(x => x.NewsText.StartsWith(sm.Text));
+        }
+
+        recordCount = q.Count();
+        sm.RecordCount=recordCount;
+        var result = q.Skip(sm.PageIndex * sm.PageSize).Take(sm.PageSize).Select(x => new NewsSearchResults
+        {
+            NewsId = x.NewsId,
+            NewsTitle = x.NewsTitle,
+            Slug = x.Slug,
+            ImageUrl = x.ImageUrl,
+            NewsText = x.NewsText,
+            NewsCategoryName = x.NewsCategory.CategoryName,
+            VisitCount = x.VisitCount
+        });
+        return  result.ToList();
+    }
+
+    #endregion
+
 }
 
+#region Mapping
 
 public static class CatMapper
 {
@@ -139,3 +204,5 @@ public static class CatMapper
         };
     }
 }
+
+#endregion

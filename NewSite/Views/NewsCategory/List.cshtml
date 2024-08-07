@@ -58,10 +58,6 @@
                         @Html.DisplayFor(modelItem => item.NewsCount)
                     </td>
                     <td>
-                        @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-info" }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-warning" }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-danger" })
-                <span class="input-group-prepend"><i class="fa fa-angle-double-down">Delete</i></span>*@
                         <span class="btn btn-danger btn-sm spn-delete" data-id="@item.CategoryId" data-action="Delete"  data-controller="NewsCategory">Delete</span>
                     </td>
                     <td>
