@@ -1,4 +1,5 @@
 ﻿using DataAccess.Services;
+using DomainModel.Models.Framework;
 using DomainModel.ViewModel.Categories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -53,12 +54,19 @@ public class NewsCategoryController(INewsCategoryRepository repository) : Contro
     public async Task<JsonResult> Add(NewsCategoryAddEditModel cat)
     {
         BindRoot();
-        if (cat.ParentId==0)
+        if (ModelState.IsValid)
         {
-            cat.ParentId = null;
+            if (cat.ParentId == 0)
+            {
+                cat.ParentId = null;
+            }
+            var op = await repository.Add(cat);
+            return Json(op);
+
         }
-        var op = await repository.Add(cat);
-        return Json(op);
+
+        return Json( new OperationResult().ToError("Add failed"));
+
 
     }
 

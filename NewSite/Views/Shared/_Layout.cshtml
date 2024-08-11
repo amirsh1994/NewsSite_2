@@ -9,6 +9,13 @@
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/NewSite.styles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </head>
 <body>
     <header>
@@ -64,11 +71,7 @@
         </div>
     </div>
     @* ----------------------------------End------------------------------ *@
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+  
     <script>
 
         function SuccessMessage(successText) {
@@ -138,25 +141,23 @@
                 }
             });
 
-        $(document).on("click",
-            ".spn-edit",
-            function () {
+        $(document).on("click", ".spn-edit", function () {
 
-                var action = window.$(this).attr("data-action");
-                var controller = window.$(this).attr("data-controller");
-                var id = window.$(this).attr("data-id");
-                var sendingUrl = `${controller}/${action}`;
-                var sendingData = `id=${id}`;
+            var action = window.$(this).attr("data-action");
+            var controller = window.$(this).attr("data-controller");
+            var id = window.$(this).attr("data-id");
+            var sendingUrl = `${controller}/${action}`;
+            var sendingData = `id=${id}`;
 
-                window.$.get(sendingUrl,
-                    sendingData,
-                    function (result) {
+            window.$.get(sendingUrl, sendingData, function (result) {
 
-                        window.$("#dvModal").html(result);
-                        window.$("#exampleModal").modal('show');
+                window.$.validator.unobtrusive.parse(window.$(result));
+                window.$("#dvModal").html(result);
+                window.$("#exampleModal").modal('show');
 
-                    });
+
             });
+        });
 
         $(document).on("click",
             ".spn-register-CategoryAddEditModel",
@@ -188,41 +189,46 @@
 
         $(document).on("click",
             ".spnOpenAddModal",
-            function (view) {
+            function () {
+
                 let controller = $(this).attr("data-controller");
                 let action = $(this).attr("data-action");
                 let sendingUrl = `${controller}/${action}`;
                 let sendingData = null;
+
+
                 $.get(sendingUrl, sendingData, function (viewAdd) {
+
                     $("#dvModal").html(viewAdd);
                     $("#exampleModal").modal('show');
+
                 });
+
 
 
 
             });
 
         //saveAdd
-        $(document).on("click",
-            ".saveAdd",
-            function () {
-                let controller = $(this).attr("data-controller");
-                let action = $(this).attr("data-action");
-                var sendingUrl = `${controller}/${action}`;
-                var formid = "#" + $(this).attr("data-form-id");
-                var sendingData = $(formid).serialize();
-                $.post(sendingUrl,
-                    sendingData,
-                    function (op) {
-                        if (op.success.toString() === "true") {
-                            window.$("#exampleModal").modal('hide');
-                            BindGrid();
-                            SuccessMessage(op.message);
-                        } else {
-                            ErrorMessage(op.message);
-                        }
-                    });
-            });
+        $(document).on("click", ".saveAdd", function (e) {
+
+            let controller = $(this).attr("data-controller");
+            let action = $(this).attr("data-action");
+            var sendingUrl = `${controller}/${action}`;
+            var formid = "#" + $(this).attr("data-form-id");
+            var sendingData = $(formid).serialize();
+            $.post(sendingUrl,
+                sendingData,
+                function (op) {
+                    if (op.success.toString() === "true") {
+                        window.$("#exampleModal").modal('hide');
+                        BindGrid();
+                        SuccessMessage(op.message);
+                    } else {
+                        ErrorMessage(op.message);
+                    }
+                });
+        });
 
 
     </script>

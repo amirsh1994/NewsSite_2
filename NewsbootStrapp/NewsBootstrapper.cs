@@ -16,6 +16,8 @@ public static class NewsBootstrapper
         },contextLifetime:ServiceLifetime.Scoped);
 
         service.AddScoped<INewsCategoryRepository, NewsCategoryRepository>();
+
+        service.AddScoped<INewsVisitorsRepository, NewVisitorsRepository>();
     }
 
 }
