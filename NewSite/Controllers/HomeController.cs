@@ -1,11 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataAccess.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NewSite.Controllers;
 
-public class HomeController : Controller
+public class HomeController(INewsVisitorsRepository repository):Controller
 {
-    public IActionResult Index()
+    public async Task<IActionResult> Index(string? phrase)
     {
+        var news =await repository.GetTopTenLastNews(phrase);
+        return View("~/views/Home/Index.cshtml",news);
+    }
+
+    public  IActionResult News(string id)
+    {
+        var news=repository.GetNewsBySlug(id);
         return View();
     }
 

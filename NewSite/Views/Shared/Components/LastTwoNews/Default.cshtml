@@ -1,0 +1,32 @@
+﻿@model List<DomainModel.ViewModel.News.NewsVisitorsListItem>
+
+<div class="col-md-6 col-12">
+    <div class="row">
+        @foreach (var item in Model.OrderByDescending(x=>x.NewsId))
+        {
+            <div class="col-12">
+                <div class="style-text mt-3">
+                    <div class="row">
+                        <div class="col-md-6 col-5">
+                            <a href="@Url.Action("NewsDetails","NewsVisitors",new{slug=item.Slug})" class="img-top-news-2">
+                                <img src="@Url.Content(item.ImageUrl)" class="img-fluid" alt="@item.NewsTitle">
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-7 py-2">
+                            <p class=" font_13 text-p line-height-text">@item.NewsTitle:</p>
+                            <a href="@Url.Action("NewsDetails","NewsVisitors",new{slug=item.Slug})" class="text-p">
+                                <div class="circle-title"></div>
+                                <p class="font_13 style-tittle line-height-text">
+                                   @item.SmallDescription
+                                </p>
+                            </a>
+                            <p class="font_13 text-p line-height-text">
+                                @item.NewsText
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

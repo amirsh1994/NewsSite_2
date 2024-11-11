@@ -1,0 +1,32 @@
+.field-validation-error {
+    font-size: 13px;
+    color: red
+}
+
+.form-element-row {
+    margin-bottom: 1rem
+}
+
+.form-element-row label {
+    font-size: 14px
+}
+
+.input-validation-error {
+    border-color: red
+}
+
+.col-md-6 {
+    margin-top: 1rem
+}
+
+.col-md-12 {
+    margin-top: 1rem
+}
+
+button.section-title {
+    font-size: 16px !important;
+}
+
+img {
+    object-fit: cover;
+}

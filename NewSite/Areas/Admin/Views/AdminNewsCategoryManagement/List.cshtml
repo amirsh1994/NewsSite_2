@@ -1,0 +1,68 @@
+﻿@model IEnumerable<DomainModel.ViewModel.Categories.CategoryListItems>
+@{
+    Layout = null;
+}
+<p class="text-center">
+    <a asp-action="Create" asp-controller="AdminNewsCategoryManagement" class="btn btn-primary">ایجاد دسته بندی جدید</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Slug)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsCount)
+            </th>
+            <th>
+                عملیات
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Slug)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NewsCount)
+                </td>
+                <td>
+                    @Html.ActionLink("ویرایش", "Edit", "AdminNewsCategoryManagement", new { newsCategoryId = item.CategoryId }, new { @class = "btn btn-info btn-sm" }) |
+                    @Html.ActionLink("افزودن زیر گروه", "Create", "AdminNewsCategoryManagement", new {parentId=item.CategoryId}, new { @class = "btn btn-primary btn-sm" })
+                    <span class="btn btn-danger btn-sm spn_AdminDeleteCategory" data-controller="AdminNewsCategoryManagement" data-action="Delete" data-id="@item.CategoryId">Delete</span>
+                </td>
+            </tr>
+            @if (item.Children.Any())
+            {
+                @foreach (var c in item.Children)
+                {
+                    <tr style="opacity: .8; color: #4b96dd">
+                        <td>@c.NewsCategoryId</td>
+                        <td>@c.CategoryName</td>
+                        <td>@c.Slug</td>
+                        <td></td>
+                        <td>
+                            @Html.ActionLink("ویرایش", "Edit", "AdminNewsCategoryManagement", new { newsCategoryId = c.NewsCategoryId }, new { @class = "btn btn-info btn-sm" }) |
+                            <span class="btn btn-danger btn-sm spn_AdminDeleteCategory" data-controller="AdminNewsCategoryManagement" data-action="Delete" data-id="@item.CategoryId">Delete</span>
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>

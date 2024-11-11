@@ -1,0 +1,10 @@
+﻿
+
+@{
+    Layout = "_ProfileLayout";
+    ViewData["selected"] = "Exit";
+}
+
+<form asp-controller="Account" asp-action="SignOut" method="post">
+    <input type="submit" class="btn btn-danger" value="ExitFromNewsSite" />
+</form>

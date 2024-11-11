@@ -1,8 +1,69 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = "_Visitory";
 }
+@model List<DomainModel.ViewModel.News.NewsVisitorsListItem>
+<section>
+    <div class="container">
+        <div class="row pb-5">
+            @await Component.InvokeAsync("TopOneSpecialNews")
+            @await Component.InvokeAsync("LastTwoNews")
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        </div>
+    </div>
+</section>
+<div class="col-lg-6 col-md-12 col-12 pb-2">
+    <div class="row">
+        @if (!this.Model.Any())
+        {
+            <div class="col-12" style="width: 2rem; height: 2rem; color: red; background-color: whitesmoke; box-shadow:10px 10px 5px lightblue ;">
+                <h5 class="text-danger text-center">ایتمی جهت نمایش وجو ندارد</h5>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in this.Model)
+            {
+                <div class="col-12">
+                    <div class="border-bottom py-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="style-text">
+                                    <div class="row">
+                                        <div class="col-md-3 col-4 pl-0">
+                                            <a href="@Url.Action("NewsDetails", "NewsVisitors", new { slug = item.Slug })"class="img-news-bartar">
+                                                <img src="@Url.Content(item.ImageUrl)" alt="@item.NewsTitle" class="img-fluid">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-9 col-8 mt-2">
+                                            @*<p class=" font_13 text-p mb-1 line-height-text">شهردار تهران در گفت و گو با خبرگزاری اردیبهشت خبر مطرح کرد:</p>*@
+                                            <a href="@Url.Action("NewsDetails", "NewsVisitors", new { slug = item.Slug })">
+                                                <p class="style-tittle text-p font_13 mb-1 line-height-text">
+                                                    @item.NewsTitle
+                                                </p>
+                                            </a>
+                                            <p class="text-p font_13 line-height-text">
+                                                @item.SmallDescription
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+<div class="col-lg-6 col-12">
+    <div class="row">
+        <div class="col-md-6 col-12">
+            <div class="sticky-top col_z_index">
+                @await Component.InvokeAsync("VisitorsTrendNews")
+                @await Component.InvokeAsync("SpecialNews")
+            </div>
+        </div>
+        @await Component.InvokeAsync("TopicOfDay")
+    </div>
 </div>

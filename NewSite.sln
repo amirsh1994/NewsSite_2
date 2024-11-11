@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModel", "DomainModel\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{218F489F-6D5B-4D65-8035-FA291162D769}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BootStrap", "NewsbootStrapp\BootStrap.csproj", "{C8E31B37-78A6-42F7-86E7-FD62CF18524B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BootStrap", "NewsbootStrapp\BootStrap.csproj", "{C8E31B37-78A6-42F7-86E7-FD62CF18524B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework", "Framework\Framework.csproj", "{BC0B5AFF-C18F-4FAC-996E-7011B7BA2D86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Security", "Security\Security.csproj", "{5D7B9B12-D898-4948-A407-B4A8F646CFF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{C8E31B37-78A6-42F7-86E7-FD62CF18524B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8E31B37-78A6-42F7-86E7-FD62CF18524B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8E31B37-78A6-42F7-86E7-FD62CF18524B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC0B5AFF-C18F-4FAC-996E-7011B7BA2D86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC0B5AFF-C18F-4FAC-996E-7011B7BA2D86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC0B5AFF-C18F-4FAC-996E-7011B7BA2D86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC0B5AFF-C18F-4FAC-996E-7011B7BA2D86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D7B9B12-D898-4948-A407-B4A8F646CFF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D7B9B12-D898-4948-A407-B4A8F646CFF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D7B9B12-D898-4948-A407-B4A8F646CFF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D7B9B12-D898-4948-A407-B4A8F646CFF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

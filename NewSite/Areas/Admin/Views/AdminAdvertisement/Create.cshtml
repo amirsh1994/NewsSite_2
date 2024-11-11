@@ -1,0 +1,38 @@
+﻿@model NewSite.ViewModels.News.AdvertisementAddViewModel
+
+@{
+    ViewData["title"] = "";
+    ViewData["selected"] = "";
+    var error = TempData["ErrorMessage"];
+}
+<div class="card">
+    @if (error!=null)
+    {
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h5 class="text-danger">@error</h5>
+            </div>
+        </div>
+    }
+    <form asp-action="Create" asp-controller="AdminAdvertisement" enctype="multipart/form-data" class="card-body row">
+        <div class="col-md-6">
+            @Html.EditorFor(x => x.Title)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(x => x.Alt)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(x => x.LinkUrl)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(x => x.Picture)
+        </div>
+        <div class="col-md-6">
+            <label asp-for="IsDefault"></label>
+            <input type="checkbox" asp-for="IsDefault"/>
+        </div>
+        <div class="col-md-12 mt-2 d-flex justify-content-end">
+            <input type="submit" class="btn btn-primary"/>
+        </div>
+    </form>
+</div>

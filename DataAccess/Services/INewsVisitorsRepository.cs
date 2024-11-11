@@ -8,15 +8,15 @@ public interface INewsVisitorsRepository
 
     Task<NewsVisitorsSearchComplexResult> GetNewsByCategorySlugAsync(NewsVisitorsSearchModel sm);
 
+    Task<List<NewsVisitorsListItem>> GetTopTenLastNews(string?  phrase);
+
+    Task<NewsVisitorsListItem> GetTopOneSpecialNews();
+
+    Task<List<NewsVisitorsListItem>> GetLatestTwoNewsNews();
+
     List<NewsVisitorsListItem> GetLatestNews(int recordCount);
 
     List<NewsVisitorsListItem> GetMostViewedNews(int recordCount);
 
     List<NewsVisitorsListItem> GetHottestNews(int recordCount);
-
-
-
-
-
-
 }

@@ -1,0 +1,52 @@
+﻿@model NewSite.ViewModels.Security.UserProfileAddEditModel
+@{
+    Layout = "_ProfileLayout";
+    ViewData["selected"] = "EditProfile";
+}
+
+<div class="row">
+    <form asp-controller="UserProfile" asp-action="EditProfile" method="post">
+        <table class="table table-bordered table-hover table-sm table-striped">
+            <tr>
+                <td>
+                    <label asp-for="FirstName"></label>
+                    <input type="text" asp-for="FirstName" class="form-control" placeholder="FirstName" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="LastName"></label>
+                    <input type="text" asp-for="LastName" class="form-control" placeholder="LastName" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="phoneNumber"></label>
+                    <input type="text" asp-for="phoneNumber" class="form-control" placeholder="phoneNumber" />
+                    <span asp-validation-for="phoneNumber" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="NationalCode"></label>
+                    <input type="text" asp-for="NationalCode" class="form-control" placeholder="NationalCode" />
+                    <span asp-validation-for="NationalCode" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="UserAddress"></label>
+                    <input type="text" asp-for="UserAddress" class="form-control" placeholder="UserAddress" />
+                    <span asp-validation-for="UserAddress" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td colspan="5">
+                    <input type="submit" value="UpdateProfile" class="btn btn-primary mt-2" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

@@ -1,0 +1,73 @@
+﻿@model NewSite.ViewModels.Security.UserAddEditModel
+
+
+@{
+    ViewData["title"] = "افزودن کاربر جدیدی";
+    ViewData["selected"] = "UserManagement";
+    var drpRole = (SelectList)ViewBag.roleList;
+}
+<div class="row d-flex justify-content-center">
+    <form asp-controller="UserManagement" asp-action="AddNewUser" method="post" class="col-md-6 ">
+        @if (ViewData.ModelState.IsValid == false)
+        {
+            <div class="col-md-6">
+                <tr class="text-center">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(x => x.Errors))
+                    {
+                        <td colspan="6">
+                            <h5 class="text-danger">@error.ErrorMessage</h5>
+                        </td>
+                    }
+                </tr>
+            </div>
+        }
+        <table class="table table-hover table-striped table-bordered ">
+            <tr>
+                <td>
+                    <label asp-for="FirstName"></label>
+                    <input type="text" asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="LastName"></label>
+                    <input type="text" asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="Email"></label>
+                    <input type="email" asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="Password"></label>
+                    <input type="password" asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="Repassword"></label>
+                    <input type="password" asp-for="Repassword" class="form-control" />
+                    <span asp-validation-for="Repassword" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>انتخاب نقش کاربر</label>
+                    <select asp-items="drpRole" asp-for="RoleId" class="form-control"></select>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td>
+                    <input type="submit" class="btn btn-primary" value="AddNewUser" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

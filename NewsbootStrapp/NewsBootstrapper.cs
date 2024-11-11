@@ -18,6 +18,13 @@ public static class NewsBootstrapper
         service.AddScoped<INewsCategoryRepository, NewsCategoryRepository>();
 
         service.AddScoped<INewsVisitorsRepository, NewVisitorsRepository>();
-    }
 
+        service.AddScoped<INewsRepository, NewsRepository>();
+
+        service.AddScoped<IAdvertisementRepository,AdvertisementRepository>();
+
+        service.AddScoped<IMenuVisitorsRepository,MenuVisitorsRepository>();
+
+        service.AddScoped<IXmlLogService, XmlLogService>();
+    }
 }

@@ -14,7 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
     @await RenderSectionAsync("Scripts", required: false)
 </head>
 <body>
@@ -37,6 +37,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="NewsCategory" asp-action="Index">showNewsCategory</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="News" asp-action="Index">News</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -44,6 +47,7 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <h3 class="text-center">@ViewData["Title"]</h3>
             @RenderBody()
         </main>
     </div>
@@ -71,8 +75,20 @@
         </div>
     </div>
     @* ----------------------------------End------------------------------ *@
-  
+
     <script>
+
+        function Search(formName) {
+            const form = window.$(`form[name="${formName}"]`);
+            const controller = form.data('controller');
+            const action = form.data('action');
+            const sendingUrl = `${controller}/${action}`;
+            const sendingData = form.serialize();
+            window.$.get(sendingUrl, sendingData, function (view) {
+                window.$("#dvList").html(view);
+            });
+        }
+
 
         function SuccessMessage(successText) {
             window.swal.fire({
@@ -106,8 +122,13 @@
                 });
         }
 
+
         $(document).ready(function () {
             BindGrid();
+            $(document).on("input change", "form[data-action] input, form[data-action] select", function () {
+                const formName = $(this).closest('form').attr('name');
+                Search(formName);
+            });
         });
 
         $(document).on("click",
@@ -151,7 +172,6 @@
 
             window.$.get(sendingUrl, sendingData, function (result) {
 
-                window.$.validator.unobtrusive.parse(window.$(result));
                 window.$("#dvModal").html(result);
                 window.$("#exampleModal").modal('show');
 
@@ -187,27 +207,29 @@
                     });
             });
 
-        $(document).on("click",
-            ".spnOpenAddModal",
-            function () {
+        $(document).on("click", ".spnOpenAddModal", function () {
 
-                let controller = $(this).attr("data-controller");
-                let action = $(this).attr("data-action");
-                let sendingUrl = `${controller}/${action}`;
-                let sendingData = null;
+            let controller = $(this).attr("data-controller");
+            let action = $(this).attr("data-action");
+            let sendingUrl = `${controller}/${action}`;
+            let sendingData = null;
 
+            $.get(sendingUrl, sendingData, function (viewAdd) {
 
-                $.get(sendingUrl, sendingData, function (viewAdd) {
+                $("#dvModal").html(viewAdd);
+                $("#exampleModal").modal('show');
 
-                    $("#dvModal").html(viewAdd);
-                    $("#exampleModal").modal('show');
-
-                });
-
-
-
-
+                // اینجا ولیدیشن را دوباره روی فرم ها فعال می‌کنیم
+                const form = $('#dvModal').find('form');
+                if (form.length > 0) {
+                    form.each(function() {
+                        $(this).removeData("validator"); // اعتبارسنجی قبلی را حذف کنید
+                        $(this).removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse($(this)); // ولیدیشن جدید را اعمال کنید
+                    });
+                }
             });
+        });
 
         //saveAdd
         $(document).on("click", ".saveAdd", function (e) {
@@ -230,7 +252,31 @@
                 });
         });
 
-
+        $(document).on("submit", 'form[data-ajax="true"]', function (e) {
+            e.preventDefault();
+            debugger;
+            const form = $(this);
+            const controller = form.data('controller');
+            const action = form.data('action');
+            const url = `${controller}/${action}`;
+            var formData = new FormData(this);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                enctype: "multipart/form-data",
+                dataType: "json",
+                processData: false,
+                contentType: false
+            }).done(function (op) {
+                if (op.success) {
+                    SuccessMessage(op.message);
+                    window.$("#exampleModal").modal('hide');
+                } else {
+                    ErrorMessage(op.message);
+                }
+            });
+        });
     </script>
 </body>
 </html>

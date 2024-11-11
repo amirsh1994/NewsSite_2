@@ -1,0 +1,69 @@
+﻿@using DataAccess.Services
+@model NewSite.ViewModels.News.NewsEditViewModel
+@inject INewsRepository NewsRepository
+@{
+    //Layout = null;
+    var drpCats = (SelectList)ViewBag.Categories;
+    var news = await NewsRepository.Get(Model.NewsId);
+}
+
+<form method="post" asp-controller="News" asp-action="Edit" enctype="multipart/form-data">
+   @if (TempData["Error"]!=null)
+   {
+       <tr class="text-center">
+           <td colspan="2">
+               <h4 class="text-danger text-center">
+                   @TempData["Error"]
+               </h4>
+           </td>
+       </tr>
+   }
+    <table class="table table-bordered table-hover table-striped table-sm">
+        <tr>
+            <td>
+                <input type="hidden" asp-for="NewsId" name="NewsId"/>
+            </td>
+        </tr>
+        <tr>
+            <td>NewsTitle</td>
+            <td> <input type="text" class="form-control" asp-for="NewsTitle" placeholder="NewsTitle"/> </td>
+        </tr>
+        <tr>
+            <td>NewsCategoryId</td>
+            <td> <select asp-items="drpCats" asp-for="NewsCategoryId" class="form-control"></select> </td>
+        </tr>
+        <tr>
+            <td>Slug</td>
+            <td> <input type="text" class="form-control" asp-for="Slug" placeholder="Slug"/> </td>
+        </tr>
+        <tr>
+            <td>SmallDescription</td>
+            <td> <input type="text" class="form-control" asp-for="SmallDescription" placeholder="SmallDescription"/> </td>
+        </tr>
+        <tr>
+            <td>NewsText</td>
+            <td> <input type="text" class="form-control" asp-for="NewsText" placeholder="NewsText"/> </td>
+        </tr>
+
+        <tr>
+            <td>Picture</td>
+            <td>
+                <input type="file" class="form-control" asp-for="Picture" name="Picture" placeholder="Picture"/>
+
+            </td>
+        </tr>
+        <tr>
+            <td>Picture</td>
+            <td>
+                <img src="@Url.Content(news.ImageUrl)" style="max-width: 100px" alt="Alternate Text"/>
+
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td colspan="2">
+                <button type="submit" class="btn btn-primary btn-sm">Update</button>
+            </td>
+        </tr>
+    </table>
+</form>
+

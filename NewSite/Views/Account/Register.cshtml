@@ -1,0 +1,71 @@
+﻿@model NewSite.ViewModels.Security.RegisterUserViewModel
+
+@{
+    Layout = "_AuthLayout";
+}
+
+<div class="row d-flex justify-content-center">
+    <form asp-controller="Account" asp-action="Register" method="post" class="col-md-4 mt-5">
+        <tr>
+            <td>
+                <label asp-for="FirstName"></label>
+                <input type="text"  asp-for="FirstName" class="form-control" placeholder="FirstName"/>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="LastName"></label>
+                <input type="text"  asp-for="LastName" class="form-control" placeholder="LastName"/>
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="Email"></label>
+                <input type="email"  asp-for="Email" class="form-control" placeholder="Email"/>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="Nationalcode"></label>
+                <input type="text"  asp-for="Nationalcode" class="form-control" placeholder="Nationalcode"/>
+                <span asp-validation-for="Nationalcode" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="Password"></label>
+                <input type="password"  asp-for="Password" class="form-control" placeholder="Password"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="Repasword"></label>
+                <input type="password"  asp-for="Repasword" class="form-control" placeholder="Repasword"/>
+                <span asp-validation-for="Repasword" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="UserAddress"></label>
+                <input type="text"  asp-for="UserAddress" class="form-control" placeholder="UserAddress"/>
+                <span asp-validation-for="UserAddress" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="MobileNumber"></label>
+                <input type="text"  asp-for="MobileNumber" class="form-control" placeholder="MobileNumber"/>
+                <span asp-validation-for="MobileNumber" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                <input type="submit" value="ثبت نام" class="btn btn-primary mt-2"/>
+            </td>
+        </tr>
+    </form>
+</div>

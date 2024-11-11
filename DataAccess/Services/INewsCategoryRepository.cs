@@ -9,6 +9,8 @@ public interface INewsCategoryRepository
 {
     Task<OperationResult> Add(NewsCategoryAddEditModel addEditModel);
 
+    Task<OperationResult> AddChild(NewsCategoryAddEditModel addEditModel,int parentId);
+
     Task<OperationResult> Delete(int categoryId);
 
     Task<NewsCategoryAddEditModel> Get(int categoryId);
@@ -27,6 +29,6 @@ public interface INewsCategoryRepository
 
     List<NewsCategoryAddEditModel> GetSubCategories(int parentId);
 
-    List<NewsSearchResults> Search(NewsSearchModel sm, out int recordCount);
+    List<NewsSearchResult> Search(NewsSearchModel sm, out int recordCount);
 
 }

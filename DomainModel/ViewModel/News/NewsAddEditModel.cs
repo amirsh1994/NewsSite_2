@@ -35,4 +35,6 @@ public class NewsAddEditModel
     public int VoteSummation { get; set; }
 
     public int VoteCount { get; set; }
+
+    public bool IsSpecial { get; set; }
 }

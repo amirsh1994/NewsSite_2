@@ -1,0 +1,39 @@
+﻿@model DomainModel.ViewModel.News.NewsSearchModel
+@{
+    ViewData["title"] = "مدیریت اخبار";
+    ViewData["selected"] = "newsManagement";
+}
+
+<a href="/Admin/AdminNewsManagement/Add" class="btn btn-primary btn-sm mb-2">افزودن خبر جدید</a>
+
+<div class="row  ">
+    <form method="get" class="col-md-10" asp-action="Index" asp-controller="AdminNewsManagement" data-controller="News" data-action="NewsListAction" name="frmForSearch">
+        <table class="table table-bordered table-sm table-striped table-hover">
+            <tr>
+                <td>متن</td>
+                <td><input type="text" asp-for="Text" class="form-control" placeholder="متن" /></td>
+            </tr>
+            <tr>
+                <td>اسلاگ خبر</td>
+                <td><input type="text" asp-for="Slug" class="form-control" placeholder="اسلاگ خبر" /></td>
+            </tr>
+            <tr>
+                <td>عنوان خبر</td>
+                <td><input type="text" asp-for="NewsTitle" class="form-control" placeholder="عنوان خبر" /></td>
+            </tr>
+            @*<tr>
+            <td>NewsCategoryId</td>
+            <td> <select asp-items="drpCats" asp-for="NewsCategoryId" class="form-control"></select> </td>
+        </tr>*@
+            <tr class="text-center">
+                <td colspan="2">
+                    <input type="submit" value="جست وجو" class="btn btn-primary btn-sm " />
+                    @Html.ActionLink("پاک کردن فیلتر ", "Index", "AdminNewsManagement", null, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        </table>
+        <div id="admin_dvList">
+            @await Component.InvokeAsync("AdminNewsList", Model)
+        </div>
+    </form>
+</div>

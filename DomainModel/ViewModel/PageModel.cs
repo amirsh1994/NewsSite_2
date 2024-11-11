@@ -8,7 +8,7 @@ public class PageModel
         get => _pageSize;
         set
         {
-            if (value==0)
+            if (value == 0)
             {
                 value = 10;
             }
@@ -22,6 +22,10 @@ public class PageModel
     {
         get
         {
+            if (PageSize == 0)
+            {
+                PageSize = 2;
+            }
             if (RecordCount % PageSize == 0)
             {
                 return RecordCount / PageSize;
@@ -29,6 +33,7 @@ public class PageModel
 
             return RecordCount / PageSize + 1;
         }
+        set {}
     }
 
     public int PageIndex { get; set; }

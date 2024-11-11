@@ -29,6 +29,23 @@ public class NewsCategoryRepository(NewsDbContext db) : INewsCategoryRepository
         }
     }
 
+    public async Task<OperationResult> AddChild(NewsCategoryAddEditModel addEditModel, int parentId)
+    {
+        var op = new OperationResult();
+        var model=addEditModel.ToModel();
+        model.ParentId=parentId;
+        try
+        {
+            db.Categories.Add(model);
+            await db.SaveChangesAsync();
+            return op.ToSuccess("saved successfully");
+        }
+        catch (Exception e)
+        {
+            return op.ToError("Error" + e.Message);
+        }
+    }
+
     public async Task<OperationResult> Delete(int categoryId)
     {
         var op = new OperationResult();
@@ -113,12 +130,16 @@ public class NewsCategoryRepository(NewsDbContext db) : INewsCategoryRepository
 
     public Task<List<CategoryListItems>> GetCategoryListItem()
     {
-        return db.Categories.Select(x => new CategoryListItems()
+        return db.Categories
+            .Where(x=>x.ParentId==null)
+            .Select(x => new CategoryListItems()
         {
             CategoryId = x.NewsCategoryId,
             NewsCount = x.News.Count,
             CategoryName = x.CategoryName,
-            Slug = x.Slug
+            Slug = x.Slug,
+            ParentId = x.ParentId,
+            Children =x.Children
         }).ToListAsync();
 
     }
@@ -134,7 +155,7 @@ public class NewsCategoryRepository(NewsDbContext db) : INewsCategoryRepository
         return db.Categories.Where(x => x.ParentId == parentId).Select(x => x.ToAddEditModel()).ToList();
     }
 
-    public List<NewsSearchResults> Search(NewsSearchModel sm, out int recordCount)
+    public List<NewsSearchResult> Search(NewsSearchModel sm, out int recordCount)
     {
         var q = from item in db.News select item;
         if (sm.NewsCategoryId != null)
@@ -142,9 +163,9 @@ public class NewsCategoryRepository(NewsDbContext db) : INewsCategoryRepository
             q = q.Where(x => x.NewsCategoryId == sm.NewsCategoryId);
         }
 
-        if (!string.IsNullOrWhiteSpace(sm.NeswTitle))
+        if (!string.IsNullOrWhiteSpace(sm.NewsTitle))
         {
-            q = q.Where(x => x.NewsTitle.StartsWith(sm.NeswTitle));
+            q = q.Where(x => x.NewsTitle.StartsWith(sm.NewsTitle));
         }
 
         if (!string.IsNullOrWhiteSpace(sm.Slug))
@@ -159,7 +180,7 @@ public class NewsCategoryRepository(NewsDbContext db) : INewsCategoryRepository
 
         recordCount = q.Count();
         sm.RecordCount=recordCount;
-        var result = q.Skip(sm.PageIndex * sm.PageSize).Take(sm.PageSize).Select(x => new NewsSearchResults
+        var result = q.Skip(sm.PageIndex * sm.PageSize).Take(sm.PageSize).Select(x => new NewsSearchResult
         {
             NewsId = x.NewsId,
             NewsTitle = x.NewsTitle,
@@ -171,9 +192,7 @@ public class NewsCategoryRepository(NewsDbContext db) : INewsCategoryRepository
         });
         return  result.ToList();
     }
-
     #endregion
-
 }
 
 #region Mapping

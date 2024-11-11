@@ -12,17 +12,17 @@ public interface INewsRepository
 
     Task<NewsAddEditModel> Get(int id);
 
-    Task<List<NewsSearchResults>> GetAll();
+    Task<List<NewsSearchResult>> GetAll();
+
+    
 
     Task<OperationResult> Update(NewsAddEditModel newAddEditModel);
 
-    Task<List<NewsSearchResults>> Search(NewsSearchModel sm,ref int recordCount);
+    Task<NewsListComplexSearchResult> Search(NewsSearchModel sm);
 
     Task<bool> ExistsNewsTitle(string title);
 
     Task<bool> ExistsSlug(string slug);
 
-
-
-
+    Task<OperationResult> SetNoImage(int id);
 }

@@ -6,7 +6,7 @@ public class NewsSearchModel:PageModel
 
     public string Slug { get; set; }
 
-    public string NeswTitle { get; set; }
+    public string NewsTitle { get; set; }
 
     public string Text { get; set; }
     

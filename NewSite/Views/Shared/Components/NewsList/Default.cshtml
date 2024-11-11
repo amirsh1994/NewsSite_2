@@ -1,0 +1,68 @@
+﻿@model DomainModel.ViewModel.News.NewsListComplexSearchResult
+@{
+    Layout = null;
+    var items = Model.Results;
+    var sm = Model.sm;
+}
+
+<table class="table table-bordered table-hover table-striped table-sm">
+    <tr>
+        <td>NewsId</td>
+        <td>NewsTitle</td>
+        <td>Slug</td>
+        <td>Picture</td>
+        <td>NewsText</td>
+        <td>NewsCategoryName</td>
+        <td>VisitCount</td>
+        <td>Delete</td>
+        <td>Edit</td>
+    </tr>
+    @foreach (var item in items)
+    {
+        <tr>
+            <td>@item.NewsId</td>
+            <td>@item.NewsTitle</td>
+            <td>@item.Slug</td>
+            <td> <img src="@Url.Content(item.ImageUrl)" style="max-width: 100px" alt="Alter" /> </td>
+            <td>@item.NewsText</td>
+            <td>@item.NewsCategoryName</td>
+            <td>@item.VisitCount</td>
+            <td>
+                <form asp-action="Delete" asp-controller="News" method="post">
+                    <input type="hidden" name="id" value="@item.NewsId" />
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+            <td>
+               @Html.ActionLink("Edit","Edit","News",new{id=item.NewsId},new{@class="btn btn-info btn-sm"})
+            </td>
+        </tr>
+    }
+    @if (Model.Results.Any() == false)
+    {
+        <tr>
+            <td class="text-center text-danger" colspan="9"><h4>There is no item ! </h4></td>
+        </tr>
+    }
+    <tr class="text-center">
+        <td colspan="9">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    @{
+                        var currentPage = sm.PageIndex;
+                        for (var i = 0; i < sm.PageCount; i++)
+                        {
+
+                            <li class="page-item @(currentPage==i?"active":null)">
+                                @Html.ActionLink((i + 1).ToString(), "Index", "News", new { PageIndex = i, sm.PageSize,sm.PageCount,sm.RecordCount }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+        </td>
+    </tr>
+</table>

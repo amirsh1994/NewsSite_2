@@ -1,0 +1,45 @@
+﻿@using DataAccess.Services
+@model NewSite.ViewModels.News.AdvertisementEditViewModel
+@inject IAdvertisementRepository Repository
+
+@{
+    ViewData["title"] = "ویرایش تبلیغات";
+    ViewData["selected"] = "";
+    var error = TempData["ErrorMessage"];
+    var adv = await Repository.Get(Model.Id);
+}
+<div class="card">
+    @if (error!=null)
+    {
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h5 class="text-danger">@error</h5>
+            </div>
+        </div>
+    }
+    <form asp-action="Edit" asp-controller="AdminAdvertisement" enctype="multipart/form-data" class="card-body row">
+        <input type="hidden" asp-for="Id" />
+        <div class="col-md-6">
+            @Html.EditorFor(x => x.Title)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(x => x.Alt)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(x => x.LinkUrl)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(x => x.Picture)
+        </div>
+        <div class="col-md-12">
+            <img src="@Url.Content(adv.ImageUrl)" alt="@adv.Alt" style="max-width:600px"/>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="IsDefault"></label>
+            <input type="checkbox" asp-for="IsDefault"/>
+        </div>
+        <div class="col-md-12 mt-2 d-flex justify-content-end">
+            <input type="submit" class="btn btn-info"/>
+        </div>
+    </form>
+</div>

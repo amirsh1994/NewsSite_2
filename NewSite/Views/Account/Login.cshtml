@@ -1,0 +1,47 @@
+﻿@model NewSite.ViewModels.Security.LoginViewModel
+@{
+    Layout = "_AuthLayout";
+}
+
+<div class="row d-flex justify-content-center">
+    <form asp-action="Login" asp-controller="Account" method="post" class="col-md-3 mt-5">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="text-center mb-3">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(x => x.Errors))
+                {
+                    <h5 class="text-danger">@error.ErrorMessage</h5>
+                }
+            </div>
+        }
+        
+        <table class="table table-striped table-hover table-sm table-bordered">
+            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl"/>
+            <tr>
+                <td>
+                    <label asp-for="UserName"></label>
+                    <input type="text" asp-for="UserName" class="form-control" placeholder="UserName" autocomplete="off"/>
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="Password"></label>
+                    <input type="password" asp-for="Password" class="form-control" placeholder="Password"/>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="IsRememberMe"></label>
+                    <input type="checkbox" asp-for="IsRememberMe" class="form-check-input"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="submit" class="btn btn-primary" value="ورود به سایت"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

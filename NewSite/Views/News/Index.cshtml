@@ -1,0 +1,79 @@
+﻿@model DomainModel.ViewModel.News.NewsSearchModel
+@{
+    ViewData["title"] = "مدیریت اخبار";
+    var drpCats = (SelectList)ViewBag.Categories;
+}
+
+<span class="btn btn-primary btn-sm mb-2 spnOpenAddModal" data-controller="News" data-action="Add">AddNews</span>
+<form method="get" asp-action="Index" asp-controller="News"  data-controller="News" data-action="NewsListAction" name="frmForSearch">
+    <table class="table table-bordered table-sm table-striped table-hover">
+        <tr>
+            <td>Text</td>
+            <td><input type="text" asp-for="Text" class="form-control" placeholder="Text" /></td>
+        </tr>
+        <tr>
+            <td>slug</td>
+            <td><input type="text" asp-for="Slug" class="form-control" placeholder="slug" /></td>
+        </tr>
+        <tr>
+            <td>NewsTitle</td>
+            <td><input type="text" asp-for="NewsTitle" class="form-control" placeholder="NewsTitle" /></td>
+        </tr>
+        <tr>
+            <td>NewsCategoryId</td>
+            <td> <select asp-items="drpCats" asp-for="NewsCategoryId" class="form-control"></select> </td>
+        </tr>
+        <tr class="text-center">
+            <td colspan="2">
+                <input type="submit" value="Search" class="btn btn-primary btn-sm " />
+                @Html.ActionLink("RemoveFilter", "Index", "News", null, new { @class = "btn btn-danger btn-sm" })
+            </td>
+        </tr>
+    </table>
+</form>
+
+@*@section Scripts
+{
+    <script>
+
+        $(document).on("change",
+            "#NewsCategoryId",
+            function() {
+                window.Search();
+            });
+
+        $(document).on("keyup",
+            "#NewsTitle",
+            function() {
+                window.Search();
+            });
+
+        $(document).on("keyup",
+            "#Text",
+            function() {
+                window.Search();
+            });
+
+        $(document).on("keyup",
+            "#NewsCategoryId",
+            function() {
+                window.Search();
+            });
+
+        $(document).on("keyup",
+            "#Slug",
+            function() {
+                window.Search();
+            });
+
+       
+
+    </script>
+
+}*@
+<div id="dvList" data-action="NewsListAction" data-controller="News">
+    @await Component.InvokeAsync("NewsList",Model)
+</div>
+
+
+

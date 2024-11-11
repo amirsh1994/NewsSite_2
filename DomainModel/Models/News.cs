@@ -28,4 +28,5 @@ public class News
 
     public int VoteCount { get; set; }
 
+    public bool IsSpecial { get; set; }
 }

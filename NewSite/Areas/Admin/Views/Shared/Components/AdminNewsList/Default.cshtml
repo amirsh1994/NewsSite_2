@@ -1,0 +1,71 @@
+﻿@model DomainModel.ViewModel.News.NewsListComplexSearchResult
+
+@{
+    var newsList = Model.Results;
+    var sm = Model.sm;
+}
+
+<table class="table table-bordered table-hover table-striped table-sm">
+    <tr>
+        <td>NewsId</td>
+        <td>عنوان</td>
+        <td>اسلاگ</td>
+        <td>عکس</td>
+        <td>متن خبر</td>
+        <td>نام رده خبر</td>
+        <td>تعداد بازدید</td>
+        <td>حذف</td>
+        <td>ویرایش</td>
+        <td>حذف عکس</td>
+    </tr>
+    @foreach (var item in newsList)
+    {
+        <tr>
+            <td>@item.NewsId</td>
+            <td>@item.NewsTitle</td>
+            <td>@item.Slug</td>
+            <td>
+                <img src="@Url.Content(item.ImageUrl)" style="max-width: 100px" alt="Alternate Text" />
+            </td>
+            <td>@item.NewsText</td>
+            <td>@item.NewsCategoryName</td>
+            <td>@item.VisitCount</td>
+            <td>
+                @Html.ActionLink("حذف","Delete","AdminNewsManagement",new{newsId=item.NewsId},new{@class="btn btn-danger btn-sm"})
+            </td>
+            <td>
+                @Html.ActionLink("ویرایش", "Edit", "AdminNewsManagement", new { newsId = item.NewsId }, new { @class = "btn btn-info btn-sm" })
+            </td>
+            <td>
+                @Html.ActionLink(" حذف عکس" , "DeleteImage", "AdminNewsManagement",new{ newsId = item.NewsId},new{@class="btn btn-warning btn-sm"})
+            </td> 
+        </tr>
+    }
+    @if (Model.Results.Any() == false)
+    {
+        <tr>
+            <td class="text-center text-danger" colspan="9"><h4>There is no item ! </h4></td>
+        </tr>
+    }
+    <tr class="text-center">
+        <td colspan="10">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">قبلی</a></li>
+                    @{
+                        var currentPage = sm.PageIndex;
+                        for (var i = 0; i < sm.PageCount; i++)
+                        {
+
+                            <li class="page-item @(currentPage==i?"active":null)">
+                                @Html.ActionLink((i + 1).ToString(), "Index", "AdminNewsManagement", new { PageIndex = i, sm.PageSize, sm.PageCount, sm.RecordCount }, new { @class = "page-link" })
+                            </li>
+                        }
+                    }
+                    <li class="page-item"><a class="page-link" href="#">بعدی</a></li>
+                </ul>
+            </nav>
+        </td>
+    </tr>
+</table>
+

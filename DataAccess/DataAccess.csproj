@@ -10,4 +10,8 @@
     <ProjectReference Include="..\DomainModel\DomainModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Security\" />
+  </ItemGroup>
+
 </Project>

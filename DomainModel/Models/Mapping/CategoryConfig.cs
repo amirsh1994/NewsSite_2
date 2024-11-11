@@ -9,7 +9,7 @@ public class CategoryConfig : IEntityTypeConfiguration<NewsCategory>
     public void Configure(EntityTypeBuilder<NewsCategory> builder)
     {
         builder.HasKey(x => x.NewsCategoryId);
-        builder.Property(x => x.CategoryName).HasMaxLength(20);
+        builder.Property(x => x.CategoryName).HasMaxLength(200);
         builder.Property(x => x.Slug).HasMaxLength(20);
         builder.Property(x => x.SmallDescription).HasMaxLength(400);
         builder

@@ -1,0 +1,41 @@
+﻿@model List<DomainModel.ViewModel.IAdvertisement.AdvertisementAddEditModel>
+@{
+    ViewData["title"] = "مدیریت تبلیغات سایت";
+    ViewData["selected"] = "Advertisement";
+}
+
+<a asp-action="Create" asp-controller="AdminAdvertisement" class="btn btn-success mb-2">افزودن موردجدید</a>
+<div class="card">
+    <div class="table table-responsive card-body p-0 mb-0 ">
+        <table class="table table-bordered table-hover mb-0">
+            <thead>
+            <tr>
+                <th>شناسه</th>
+                <th>عنوان</th>
+                <th>تصویر</th>
+                <th>alt</th>
+                <th>تبلیغ پیشفرض</th>
+                <th>عملیات</th>
+            </tr>
+            </thead>
+            <tbody>
+           @foreach (var item in Model)
+           {
+               <tr>
+                   <td>@item.Id</td>
+                   <td>@item.Title</td>
+                   <td>
+                       <img src="@Url.Content(item.ImageUrl)" alt="@item.Alt" style="max-width: 600px" />
+                   </td>
+                   <td>@item.Alt</td>
+                   <td>@item.IsDefault</td>
+                   <td>
+                       @Html.ActionLink("Edit", "Edit","AdminAdvertisement" ,new{id=item.Id}, new{@class="btn btn-info btn-sm"}) |
+                       @Html.ActionLink("Delete", "Delete","AdminAdvertisement",new{id=item.Id}, new {@class="btn btn-danger btn-sm" })
+                   </td>
+               </tr>
+           }
+            </tbody>
+        </table>
+    </div>
+</div>

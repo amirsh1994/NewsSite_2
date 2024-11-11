@@ -1,0 +1,16 @@
+﻿@model DomainModel.ViewModel.News.NewsVisitorsListItem
+
+
+<div class="col-md-6 col-12 mt-3">
+    <div class="img-relative img-hover">
+        <a href="@Url.Action("NewsDetails","NewsVisitors",new{slug=Model.Slug})" class="img-top-news-1">
+            <img src="@Url.Content(Model.ImageUrl)" class="img-fluid">
+            <div class="text-box-top-news-1">
+                <div class="circle-title"></div>
+                <p class="font_15 p-0 style-top-tittle line-height-text">
+                   @Model.NewsTitle
+                </p>
+            </div>
+        </a>
+    </div>
+</div>

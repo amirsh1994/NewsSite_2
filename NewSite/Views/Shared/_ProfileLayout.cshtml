@@ -1,0 +1,47 @@
+﻿<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="~/css/site.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link href="~/Content/font-awesome.css" rel="stylesheet" />
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<partial name="_ValidationScriptsPartial" />
+@await RenderSectionAsync("Scripts", required: false)
+@{
+    var selected = ViewData["selected"]!.ToString();
+}
+
+<div class="container p-0">
+    <h1 class="h3 mb-3">Settings</h1>
+    <div class="row">
+        <div class="col-md-5 col-xl-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Profile Settings</h5>
+                </div>
+                <div class="list-group list-group-flush" role="tablist">
+                    <a class="list-group-item list-group-item-action @(selected=="user-profile"?"active":null)" data-toggle="list" asp-controller="UserProfile" asp-action="Index" role="tab">
+                        Account
+                    </a>
+                    <a class="list-group-item list-group-item-action @(selected=="changePassword"?"active":null)" data-toggle="list" asp-controller="UserProfile" asp-action="ChangePassword" role="tab">
+                        ChangePassword
+                    </a>
+                    <a class="list-group-item list-group-item-action @(selected=="EditProfile"?"active":null)" data-toggle="list" asp-controller="UserProfile" asp-action="EditProfile" role="tab">
+                        Edit User Information
+                    </a>
+                    <a class="list-group-item list-group-item-action @(selected=="Exit"?"active":null)" data-toggle="list" asp-controller="UserProfile" asp-action="Exit" role="tab">
+                        Exit
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 col-xl-8">
+            @RenderBody()
+        </div>
+    </div>
+</div>

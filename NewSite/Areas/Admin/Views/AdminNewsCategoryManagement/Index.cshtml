@@ -1,0 +1,49 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["selected"] = "newsCategories";
+}
+<div id="admin_newsCategoryListItem" data-controller="AdminNewsCategoryManagement" data-action="List">
+
+</div>
+
+@section scripts
+{
+    <script>
+       
+
+        function adminBindGrid() {
+            const controller = $("#admin_newsCategoryListItem").attr("data-controller");
+            const action = $("#admin_newsCategoryListItem").attr("data-action");
+            const sendingUrl = `${controller}/${action}`;
+            const sendingData = null;
+            $.get(sendingUrl,
+                null,
+                function (data) {
+                    $("#admin_newsCategoryListItem").html(data);
+                });
+        }
+
+        $(document).ready(function () {
+            adminBindGrid();
+        });
+
+        $(document).on("click",
+            ".spn_AdminDeleteCategory",
+            function () {
+                const controller = $(this).attr("data-controller");
+                const action = $(this).attr("data-action");
+                const id = $(this).attr("data-id");
+                const sendingUrl = `${controller}/${action}`;
+                const sendingData = "id=" + id;
+                $.post(sendingUrl, sendingData, function (op) {
+                    console.log(op);
+                    if (op.success.toString() === "true") {
+                        window.SuccessMessage(op.message);
+                        adminBindGrid();
+                    } else {
+                        window.ErrorMessage(op.message);
+                    }
+                });
+            });
+    </script>
+}

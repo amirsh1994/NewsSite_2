@@ -5,7 +5,10 @@ namespace DomainModel.Models;
 public class NewsDbContext(DbContextOptions<NewsDbContext> options) : DbContext(options)
 {
     public DbSet<NewsCategory> Categories { get; set; }
+
     public DbSet<News> News { get; set; }
+
+    public DbSet<Advertisement> Advertisements { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

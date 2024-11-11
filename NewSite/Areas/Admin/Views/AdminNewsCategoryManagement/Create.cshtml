@@ -1,0 +1,47 @@
+﻿@model DomainModel.ViewModel.Categories.NewsCategoryAddEditModel
+
+@{
+    ViewData["Title"] = "ایجاد دسته بندی جدید";
+    var error = TempData["ErrorMessage"];
+}
+@if (error!=null)
+{
+    <div class="row" >
+        <div class="col-md-4" >
+            <h5 class="text-danger text-center">@error</h5>
+        </div>
+    </div>
+}
+<div class="row  d-flex justify-content-center align-items-center">
+    <div class="col-md-4">
+        <h1>@ViewData["Title"]</h1>
+        <form asp-action="Create" asp-controller="AdminNewsCategoryManagement">
+            <input type="hidden" asp-for="ParentId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <input asp-for="CategoryName" class="form-control"/>
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SmallDescription" class="control-label"></label>
+                <input asp-for="SmallDescription" class="form-control"/>
+                <span asp-validation-for="SmallDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Slug" class="control-label"></label>
+                <input asp-for="Slug" class="form-control"/>
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+            </div>
+            <div>
+                <a asp-action="Index" asp-controller="AdminNewsCategoryManagement">بازگشت به صفحه قبلی</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

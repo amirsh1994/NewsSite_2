@@ -1,0 +1,145 @@
+﻿@model List<DomainModel.Models.NewsCategory>
+
+
+
+<nav class="navbar navbar-expand-lg bg-nav-color sticky-top header  mt-2 ">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">
+                <i class="fa fa-bars"></i>
+            </span>
+        </button>
+        <div class="collapse navbar-collapse" id="main_nav">
+            <ul class="navbar-nav pr-lg-0">
+                <li class="nav-item dropdown ">
+                    <a class="nav-link nav-text-color pb-3" href="#">صفحات</a>
+                    <ul class="dropdown-menu fade-up">
+                        <li><a class="dropdown-item" href="/"> صفحه اصلی</a></li>
+                        <li><a class="dropdown-item" href="category.html">دسته بندی ها </a></li>
+                        <li><a class="dropdown-item" href="show-news.html"> نمایش خبر  </a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("ContactUs","NewsVisitors",null)"> ارتباط با ما  </a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("AboutUs","NewsVisitors")"> درباره ی ما  </a></li>
+                    </ul>
+                </li>
+
+                @foreach (var item in Model)
+                {
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link  nav-text-color pb-3" href="@Url.Action("News","Home",new{id=item.Slug})">@item.CategoryName</a>
+                        <ul class="dropdown-menu fade-up">
+                           @if (item.Children.Any())
+                           {
+                               @foreach (var c in item.Children)
+                               {
+                                   <li>
+                                       <a class="dropdown-item" href="@Url.Action("News","Home",new{id=c.Slug})">@c.CategoryName</a>
+                                   </li>
+                               }
+                           }
+                            @*<li>
+                                <a class="dropdown-item" href="#"> کافه بین الملل </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"> عناوین کل اخبار بین الملل </a>
+                            </li>*@
+                        </ul>
+                    </li>
+                }
+
+                @*<li class="nav-item dropdown ">
+                    <a class="nav-link  nav-text-color pb-3" href="category.html">ورزشی</a>
+                    <ul class="dropdown-menu fade-up">
+                        <li><a class="dropdown-item" href="#">توپ و تور</a></li>
+                        <li><a class="dropdown-item" href="#">پایه آبی </a></li>
+                        <li><a class="dropdown-item" href="#">فوتبال و فوتسال</a></li>
+                        <li><a class="dropdown-item" href="#">کشتی و رزمی </a></li>
+                        <li><a class="dropdown-item" href="#">عناوین کل اخبار ورزشی </a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown ">
+                    <a class="nav-link  nav-text-color pb-3" href="category.html"> اجتماعی </a>
+                    <ul class="dropdown-menu fade-up">
+                        <li><a class="dropdown-item" href="#">محیط زیست</a></li>
+                        <li><a class="dropdown-item" href="#">رفاه و تعاون</a></li>
+                        <li><a class="dropdown-item" href="#">عناوین کل اخبار اجتماعی</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown ">
+                    <a class="nav-link nav-text-color pb-3" href="category.html"> اقتصادی  </a>
+                    <ul class="dropdown-menu fade-up">
+                        <li><a class="dropdown-item" href="#">بانک و بیمه</a></li>
+                        <li><a class="dropdown-item" href="#">بورس</a></li>
+                        <li><a class="dropdown-item" href="#">راه و شهرسازی</a></li>
+                        <li><a class="dropdown-item" href="#">عناوین کل اخبار اقتصادی</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown ">
+                    <a class="nav-link nav-text-color pb-3" href="category.html">فرهنگی هنری  </a>
+                    <ul class="dropdown-menu fade-up">
+                        <li><a class="dropdown-item" href="#"> رادیو و تلویزیون</a></li>
+                        <li><a class="dropdown-item" href="#">سینما و تئاتر  </a></li>
+                        <li><a class="dropdown-item" href="#">عناوین کل اخبار فرهنگی و هنری </a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown ">
+                    <a class="nav-link nav-text-color pb-3" href="category.html"> علمی و پزشکی  </a>
+                    <ul class="dropdown-menu fade-up">
+                        <li><a class="dropdown-item" href="#">دانلود نرم افزار</a></li>
+                        <li><a class="dropdown-item" href="#"> کلینیک </a></li>
+                        <li><a class="dropdown-item" href="#">عناوین کل اخبار علمی و پزشکی </a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown ">
+                    <a class="nav-link nav-text-color pb-3" href="category.html"> فیلم و صوت  </a>
+                    <ul class="dropdown-menu fade-up">
+                        <li><a class="dropdown-item" href="#"> آموزشی </a></li>
+                        <li><a class="dropdown-item" href="#">گزارش استان ها </a></li>
+                        <li><a class="dropdown-item" href="#"> عناوین کل اخبار فیلم و صوت </a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown ">
+                    <a class="nav-link nav-text-color pb-3" href="category.html"> عکس  </a>
+                    <ul class="dropdown-menu fade-up">
+                        <li><a class="dropdown-item" href="#">خبری</a></li>
+                        <li><a class="dropdown-item" href="#">مستند</a></li>
+                        <li><a class="dropdown-item" href="#"> عناوین کل اخبار عکس  </a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown ">
+                    <a class="nav-link nav-text-color pb-3" href="category.html"> استان ها  </a>
+                    <ul class="dropdown-menu fade-up">
+                        <li><a class="dropdown-item" href="#">گلستان</a></li>
+                        <li><a class="dropdown-item" href="#"> تهران </a></li>
+                        <li><a class="dropdown-item" href="#">عناوین کل اخبار استان ها</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown ">
+                    <a class="nav-link nav-text-color pb-3" href="category.html">شهروند خبر نگار</a>
+                    <ul class="dropdown-menu fade-up">
+                        <li><a class="dropdown-item" href="#"> شهروند خبرنگار</a></li>
+                        <li><a class="dropdown-item" href="#"> عناوین کل اخبار شهروند خبر نگار</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown ">
+                    <a class="nav-link nav-text-color pb-3" href="category.html">وب گردی  </a>
+                    <ul class="dropdown-menu fade-up">
+                        <li><a class="dropdown-item" href="#"> خواندنی ها</a></li>
+                        <li><a class="dropdown-item" href="#"> مجله سرگرمی </a></li>
+                        <li><a class="dropdown-item" href="#">اخبار داغ</a></li>
+                    </ul>
+                </li>*@
+            </ul>
+        </div> <!-- navbar-collapse.// -->
+    </div> <!-- container-fluid.// -->
+</nav>
+
+<!--end menu-->

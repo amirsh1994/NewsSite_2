@@ -1,0 +1,30 @@
+﻿@model NewSite.ViewModels.Security.RoleAddEditModel
+
+@{
+    ViewData["Title"] = "ایجاد نقش جدید";
+}
+
+<div class="row d-flex justify-content-center">
+    <form  asp-controller="RoleManagement" asp-action="AddNewRole" method="post" class="col-md-6  ">
+        <table class="table table-hover table-bordered table-striped table-sm ">
+            <tr>
+                <td>
+                    <label asp-for="RoleName"></label>
+                    <input type="text" asp-for="RoleName" class="form-control"placeholder="RoleName"/>
+                    <span asp-validation-for="RoleName"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="Description"></label>
+                    <input type="text" asp-for="Description" class="form-control"placeholder="RoleName"/>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td>
+                    <input type="submit" value="ایجاد نقش جدید" class="btn btn-primary"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
